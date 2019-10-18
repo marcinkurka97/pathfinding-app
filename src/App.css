@@ -1,22 +1,118 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-}
-
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+}
+.App-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
-.App-link {
-  color: #09d3ac;
+.App-container button {
+  width: 200px;
+  margin: 20px auto;
+}
+
+.node {
+  margin: 0 1px;
+  border: 1px solid black;
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+}
+
+.node__start {
+  background: green;
+}
+
+.node__finish {
+  background: red;
+}
+
+.node__visited {
+  animation-name: visitedAnimation;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
+@keyframes visitedAnimation {
+  0% {
+    transform: scale(0.3);
+    background-color: rgba(0, 0, 66, 0.75);
+    border-radius: 100%;
+  }
+
+  50% {
+    background-color: rgba(17, 104, 217, 0.75);
+  }
+
+  75% {
+    transform: scale(1.2);
+    background-color: rgba(0, 217, 159, 0.75);
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: rgba(0, 190, 218, 0.75);
+  }
+}
+
+.node__wall {
+  animation-name: wallAnimation;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes wallAnimation {
+  0% {
+    transform: scale(0.2);
+    background-color: rgba(0, 94, 172, 0.932);
+    border-radius: 100%;
+  }
+  100% {
+    transform: scale(1);
+    background-color: rgba(0, 29, 53, 0.932);
+  }
+}
+
+.node__shortest-path {
+  animation-name: shortestPathAnimation;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes shortestPathAnimation {
+  0% {
+    transform: scale(0.2);
+    background-color: rgba(158, 123, 9, 0.932);
+    border-radius: 100%;
+  }
+  100% {
+    transform: scale(1);
+    background-color: rgba(230, 226, 8, 0.932);
+  }
+}
+
+.table {
+  margin: 0 auto;
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.table__row {
+  margin: 0 0 4px 0;
+  height: 40px;
 }
