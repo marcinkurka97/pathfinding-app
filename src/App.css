@@ -14,24 +14,28 @@
 }
 
 .node {
-  margin: 0 1px;
-  border: 1px solid black;
-  width: 40px;
-  height: 40px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  width: 20px;
+  height: 20px;
   display: inline-block;
 }
 
 .node__start {
   background: green;
+  cursor: pointer;
 }
 
 .node__finish {
   background: red;
+  cursor: pointer;
 }
 
 .node__visited {
   animation-name: visitedAnimation;
-  animation-duration: 1.5s;
+  animation-duration: 0.5s;
   animation-timing-function: ease-out;
   animation-delay: 0;
   animation-direction: alternate;
@@ -45,15 +49,6 @@
     transform: scale(0.3);
     background-color: rgba(0, 0, 66, 0.75);
     border-radius: 100%;
-  }
-
-  50% {
-    background-color: rgba(17, 104, 217, 0.75);
-  }
-
-  75% {
-    transform: scale(1.2);
-    background-color: rgba(0, 217, 159, 0.75);
   }
 
   100% {
@@ -97,12 +92,12 @@
 @keyframes shortestPathAnimation {
   0% {
     transform: scale(0.2);
-    background-color: rgba(158, 123, 9, 0.932);
+    background-color: rgba(255, 238, 0, 0.932);
     border-radius: 100%;
   }
   100% {
     transform: scale(1);
-    background-color: rgba(230, 226, 8, 0.932);
+    background-color: rgba(236, 145, 7, 0.932);
   }
 }
 
@@ -113,6 +108,15 @@
 }
 
 .table__row {
-  margin: 0 0 4px 0;
-  height: 40px;
+  height: 20px;
+}
+
+.config-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+#start-node,
+#finish-node {
+  font-size: 16px;
 }
