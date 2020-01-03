@@ -1,5 +1,8 @@
 import React from "react";
 
+let grid = [];
+let animateGrid = [];
+
 class RecursiveBacktracking extends React.Component {
   constructor(props) {
     super(props);
@@ -15,23 +18,16 @@ class RecursiveBacktracking extends React.Component {
   }
 
   Maze(w, h, props) {
+    w = Math.round(w) - 1;
+    h = Math.round(h) - 1;
+
     console.log(w, h);
 
-    document.querySelectorAll(".node").forEach(el => {
-      if (el.className !== "node node__wall") {
-        el.className = "node ";
-      }
-      if (el.id === `node-${props.startNode[0]}-${props.startNode[1]}`) {
-        el.className = "node node__start";
-      }
-      if (el.id === `node-${props.finishNode[0]}-${props.finishNode[1]}`) {
-        el.className = "node node__finish";
-      }
-    });
-
-    // grid = props.grid;
-    // grid = props.getInitialGrid();
-    // props.updateGridState(grid);
+    animateGrid = [];
+    props.clearBoard();
+    grid = props.grid;
+    grid = props.getInitialGrid();
+    props.updateGridState(grid);
 
     this.w = isNaN(w) || w < 5 || w > 999 ? 20 : w;
     this.h = isNaN(h) || h < 5 || h > 999 ? 20 : h;
@@ -53,16 +49,62 @@ class RecursiveBacktracking extends React.Component {
     };
 
     this.build(0, 0);
-    console.log(this.gridMap);
 
     for (let i = 0; i < this.gridMap.length - 1; i++) {
       for (let j = 0; j < this.gridMap[i].length - 1; j++) {
-        if (this.gridMap[i][j] === 0) {
-          document.getElementById(`node-${i}-${j}`).className =
-            "node node__wall";
+        if (
+          this.gridMap[i][j] === 0 ||
+          i === 0 ||
+          i === this.gridMap.length - 1 ||
+          j === 0 ||
+          j === this.gridMap[i].length - 1
+        ) {
+          if (
+            !this.props.grid[i][j].isStart &&
+            !this.props.grid[i][j].isFinish
+          ) {
+            animateGrid.push(this.props.grid[i][j]);
+          }
         }
       }
     }
+    this.display();
+  }
+
+  async display() {
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[i].length; j++) {
+        if (
+          i === 0 ||
+          i === grid.length - 1 ||
+          j === 0 ||
+          j === grid[i].length - 1
+        ) {
+          await this.task2(i, j);
+          grid[i][j].isWall = true;
+        }
+      }
+    }
+    for (let i = 0; i < animateGrid.length; i++) {
+      await this.task(animateGrid, i);
+      grid[animateGrid[i].row][animateGrid[i].col].isWall = true;
+    }
+  }
+
+  async task(animateGrid, i) {
+    await this.timer(1);
+    const node = animateGrid[i];
+    document.getElementById(`node-${node.row}-${node.col}`).className =
+      "node node__wall";
+  }
+
+  async task2(i, j) {
+    await this.timer(1);
+    document.getElementById(`node-${i}-${j}`).className = "node node__wall";
+  }
+
+  timer(ms) {
+    return new Promise(res => setTimeout(res, ms));
   }
 
   toGrid() {
@@ -153,7 +195,7 @@ class RecursiveBacktracking extends React.Component {
           this.Maze(props.grid[0].length / 2, props.grid.length / 2, props)
         }
       >
-        Generate Maze -> Recursive Backtraciking
+        Recursive Backtraciking
       </button>
     );
   }

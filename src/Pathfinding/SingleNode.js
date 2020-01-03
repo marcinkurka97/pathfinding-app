@@ -11,23 +11,25 @@ class SingleNode extends React.Component {
   };
 
   onDragStart = (e, obj) => {
-    e.target.parentNode.classList = "node ";
-    e.dataTransfer.setData("text", e.target.id);
+    if ((obj.props.isStart || obj.props.isFinish) && !obj.props.isWall) {
+      e.target.parentNode.classList = "node ";
+      e.dataTransfer.setData("text", e.target.id);
+    }
   };
 
   onDrop = (e, obj) => {
     e.stopPropagation();
     e.preventDefault();
+
     let data = e.dataTransfer.getData("text/plain");
 
     if (data === "start-node") {
       e.target.classList = "node node__start";
       this.props.setStartNode(obj.props.row, obj.props.col);
+      e.target.appendChild(document.getElementById(data));
     } else if (data === "finish-node") {
       e.target.classList = "node node__finish";
       this.props.setFinishNode(obj.props.row, obj.props.col);
-    }
-    if (!obj.props.isStart) {
       e.target.appendChild(document.getElementById(data));
     }
   };

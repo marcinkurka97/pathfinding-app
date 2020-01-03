@@ -12,9 +12,7 @@ class RecursiveDivision extends React.Component {
 
   generate(props) {
     animateGrid = [];
-
-    this.clearBoard(props);
-
+    props.clearBoard();
     grid = props.grid;
     grid = props.getInitialGrid();
     props.updateGridState(grid);
@@ -92,21 +90,7 @@ class RecursiveDivision extends React.Component {
       animateGrid[i].isWall = true;
     }
 
-    for (let i = 0; i < gapsArr.length; i++) {
-      gapsArr[i].isWall = false;
-    }
-  }
-
-  clearBoard(props) {
-    document.querySelectorAll(".node").forEach(el => {
-      el.className = "node ";
-      if (el.id === `node-${props.startNode[0]}-${props.startNode[1]}`) {
-        el.className = "node node__start";
-      }
-      if (el.id === `node-${props.finishNode[0]}-${props.finishNode[1]}`) {
-        el.className = "node node__finish";
-      }
-    });
+    gapsArr.map(el => (el.isWall = false));
   }
 
   async task(animateGrid, i) {
@@ -123,9 +107,7 @@ class RecursiveDivision extends React.Component {
   render() {
     const props = this.props;
     return (
-      <button onClick={() => this.generate(props)}>
-        Generate Maze -> Revursive Division
-      </button>
+      <button onClick={() => this.generate(props)}>Revursive Division</button>
     );
   }
 }
