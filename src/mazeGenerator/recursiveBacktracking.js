@@ -21,8 +21,6 @@ class RecursiveBacktracking extends React.Component {
     w = Math.round(w) - 1;
     h = Math.round(h) - 1;
 
-    console.log(w, h);
-
     animateGrid = [];
     props.clearBoard();
     grid = props.grid;
@@ -68,10 +66,12 @@ class RecursiveBacktracking extends React.Component {
         }
       }
     }
-    this.display();
+    this.display(props);
   }
 
-  async display() {
+  async display(props) {
+    props.setSerachingState(true);
+
     for (let i = 0; i < grid.length; i++) {
       for (let j = 0; j < grid[i].length; j++) {
         if (
@@ -89,6 +89,8 @@ class RecursiveBacktracking extends React.Component {
       await this.task(animateGrid, i);
       grid[animateGrid[i].row][animateGrid[i].col].isWall = true;
     }
+
+    props.setSerachingState(false);
   }
 
   async task(animateGrid, i) {
@@ -191,6 +193,7 @@ class RecursiveBacktracking extends React.Component {
     const props = this.props;
     return (
       <button
+        disabled={props.disabled}
         onClick={() =>
           this.Maze(props.grid[0].length / 2, props.grid.length / 2, props)
         }

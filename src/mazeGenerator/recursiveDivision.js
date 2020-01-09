@@ -19,7 +19,7 @@ class RecursiveDivision extends React.Component {
 
     this.addOuterWalls();
     this.addInnerWalls(true, 1, grid[0].length - 2, 1, grid.length - 2);
-    this.display();
+    this.display(props);
   }
 
   addOuterWalls() {
@@ -84,13 +84,22 @@ class RecursiveDivision extends React.Component {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  async display() {
+  async display(props) {
+    props.setSerachingState(true);
+
+    // const differenceArray = animateGrid.filter(x => !gapsArr.includes(x));
+
     for (let i = 0; i < animateGrid.length; i++) {
       await this.task(animateGrid, i);
       animateGrid[i].isWall = true;
     }
 
-    gapsArr.map(el => (el.isWall = false));
+    gapsArr.map(el => {
+      return (el.isWall = false);
+      // document.getElementById(`node-${el.row}-${el.col}`).className = "node ";
+    });
+
+    props.setSerachingState(false);
   }
 
   async task(animateGrid, i) {
@@ -107,7 +116,9 @@ class RecursiveDivision extends React.Component {
   render() {
     const props = this.props;
     return (
-      <button onClick={() => this.generate(props)}>Revursive Division</button>
+      <button disabled={props.disabled} onClick={() => this.generate(props)}>
+        Revursive Division
+      </button>
     );
   }
 }

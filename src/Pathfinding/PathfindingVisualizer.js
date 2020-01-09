@@ -78,6 +78,10 @@ export default class PathfindingVisualizer extends React.Component {
     this.setState({ grid: newGrid });
   };
 
+  setSerachingState = value => {
+    this.setState({ isSearching: value });
+  };
+
   clearBoard = () => {
     const grid = getInitialGrid();
     this.setState({ grid });
@@ -161,83 +165,99 @@ export default class PathfindingVisualizer extends React.Component {
   // #endregion
 
   render() {
-    const { grid, mouseIsPressed } = this.state;
+    const { grid, mouseIsPressed, isSearching } = this.state;
     return (
       <>
-        <div className="config-desc">
-          <h3 className="config-desc__config">Config</h3>
-          <h3 className="config-desc__pathfinding">Pathfinding</h3>
-          <h3 className="config-desc__mazes">Generate Maze</h3>
-        </div>
-        <div className="config-buttons">
-          <button onClick={() => this.clearBoard()}>Clear board</button>
-          <button onClick={() => this.visualizeDijkstra()}>
-            Start Dijkstra's Algorithm
-          </button>
-          <div className="maze-generators">
-            <SimpleVerticalWalls
-              grid={grid}
-              getInitialGrid={getInitialGrid}
-              updateGridState={this.updateGridState}
-              startNode={this.state.startNode}
-              finishNode={this.state.finishNode}
-              clearBoard={this.clearBoard}
-            />
-            <RecursiveDivision
-              grid={grid}
-              getInitialGrid={getInitialGrid}
-              updateGridState={this.updateGridState}
-              startNode={this.state.startNode}
-              finishNode={this.state.finishNode}
-              clearBoard={this.clearBoard}
-            />
-            <RecursiveBacktracking
-              grid={grid}
-              getInitialGrid={getInitialGrid}
-              updateGridState={this.updateGridState}
-              startNode={this.state.startNode}
-              finishNode={this.state.finishNode}
-              clearBoard={this.clearBoard}
-            />
+        <header className="App-header">
+          <h1 classNama="App-header__title">Pathfinding visualization</h1>
+          <div className="config-desc">
+            <h3 className="config-desc__config">Config</h3>
+            <h3 className="config-desc__pathfinding">Pathfinding</h3>
+            <h3 className="config-desc__mazes">Generate Maze</h3>
           </div>
-        </div>
-        <div
-          className="table"
-          style={{
-            gridTemplateColumns: `repeat(${TABLE_WIDTH}, 20px)`,
-            gridTemplateRows: `repeat(${TABLE_HEIGHT}, 20px)`
-          }}
-        >
-          {grid.map(row => {
-            return row.map((node, nodeIndex) => {
-              const {
-                row,
-                col,
-                isStart,
-                isFinish,
-                isWall = false,
-                isVisited
-              } = node;
-              return (
-                <SingleNode
-                  key={nodeIndex}
-                  row={row}
-                  col={col}
-                  isStart={isStart}
-                  isFinish={isFinish}
-                  isWall={isWall}
-                  isVisited={isVisited}
-                  mouseIsPressed={mouseIsPressed}
-                  onMouseDown={(row, col) => this.handleMouseDown(row, col)}
-                  onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
-                  onMouseUp={() => this.handleMouseUp()}
-                  setStartNode={(row, col) => this.setStartNode(row, col)}
-                  setFinishNode={(row, col) => this.setFinishNode(row, col)}
-                ></SingleNode>
-              );
-            });
-          })}
-        </div>
+          <div className="config-buttons">
+            <button disabled={isSearching} onClick={() => this.clearBoard()}>
+              Clear board
+            </button>
+            <button
+              disabled={isSearching}
+              onClick={() => this.visualizeDijkstra()}
+            >
+              Start Dijkstra's Algorithm
+            </button>
+            <div className="maze-generators">
+              <SimpleVerticalWalls
+                setSerachingState={this.setSerachingState}
+                disabled={isSearching}
+                grid={grid}
+                getInitialGrid={getInitialGrid}
+                updateGridState={this.updateGridState}
+                startNode={this.state.startNode}
+                finishNode={this.state.finishNode}
+                clearBoard={this.clearBoard}
+              />
+              <RecursiveDivision
+                setSerachingState={this.setSerachingState}
+                disabled={isSearching}
+                grid={grid}
+                getInitialGrid={getInitialGrid}
+                updateGridState={this.updateGridState}
+                startNode={this.state.startNode}
+                finishNode={this.state.finishNode}
+                clearBoard={this.clearBoard}
+              />
+              <RecursiveBacktracking
+                setSerachingState={this.setSerachingState}
+                disabled={isSearching}
+                grid={grid}
+                getInitialGrid={getInitialGrid}
+                updateGridState={this.updateGridState}
+                startNode={this.state.startNode}
+                finishNode={this.state.finishNode}
+                clearBoard={this.clearBoard}
+              />
+            </div>
+          </div>
+        </header>
+        <section className="table-container">
+          <div
+            className="table"
+            style={{
+              gridTemplateColumns: `repeat(${TABLE_WIDTH}, 20px)`,
+              gridTemplateRows: `repeat(${TABLE_HEIGHT}, 20px)`
+            }}
+          >
+            {grid.map(row => {
+              return row.map((node, nodeIndex) => {
+                const {
+                  row,
+                  col,
+                  isStart,
+                  isFinish,
+                  isWall = false,
+                  isVisited
+                } = node;
+                return (
+                  <SingleNode
+                    key={nodeIndex}
+                    row={row}
+                    col={col}
+                    isStart={isStart}
+                    isFinish={isFinish}
+                    isWall={isWall}
+                    isVisited={isVisited}
+                    mouseIsPressed={mouseIsPressed}
+                    onMouseDown={(row, col) => this.handleMouseDown(row, col)}
+                    onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
+                    onMouseUp={() => this.handleMouseUp()}
+                    setStartNode={(row, col) => this.setStartNode(row, col)}
+                    setFinishNode={(row, col) => this.setFinishNode(row, col)}
+                  ></SingleNode>
+                );
+              });
+            })}
+          </div>
+        </section>
       </>
     );
   }

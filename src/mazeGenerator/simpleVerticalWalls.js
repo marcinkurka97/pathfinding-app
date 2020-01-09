@@ -13,10 +13,12 @@ class SimpleVerticalWalls extends React.Component {
     grid = props.getInitialGrid();
     props.updateGridState(grid);
 
-    this.animateWalls();
+    this.animateWalls(props);
   }
 
-  async animateWalls() {
+  async animateWalls(props) {
+    props.setSerachingState(true);
+
     for (let i = 0; i < grid.length; i++) {
       for (let j = 0; j < grid[i].length; j++) {
         if (
@@ -42,6 +44,8 @@ class SimpleVerticalWalls extends React.Component {
         }
       }
     }
+
+    props.setSerachingState(false);
   }
 
   async task2(i, j) {
@@ -56,7 +60,10 @@ class SimpleVerticalWalls extends React.Component {
   render() {
     const props = this.props;
     return (
-      <button onClick={() => this.verticalWalls(props)}>
+      <button
+        disabled={props.disabled}
+        onClick={() => this.verticalWalls(props)}
+      >
         Horizontal Walls
       </button>
     );
