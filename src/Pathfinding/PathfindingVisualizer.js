@@ -169,7 +169,7 @@ export default class PathfindingVisualizer extends React.Component {
     return (
       <>
         <header className="App-header">
-          <h1 classNama="App-header__title">Pathfinding visualization</h1>
+          <h1 className="App-header__title">Pathfinding visualization</h1>
           <div className="config-desc">
             <h3 className="config-desc__config">Config</h3>
             <h3 className="config-desc__pathfinding">Pathfinding</h3>
@@ -263,6 +263,7 @@ export default class PathfindingVisualizer extends React.Component {
   }
 }
 
+// Initialize empty grid
 const getInitialGrid = () => {
   const grid = [];
   for (let row = 0; row < TABLE_HEIGHT; row++) {
@@ -275,6 +276,7 @@ const getInitialGrid = () => {
   return grid;
 };
 
+// Initial node obj
 const createNode = (row, col) => {
   return {
     col,
@@ -288,6 +290,7 @@ const createNode = (row, col) => {
   };
 };
 
+// Draw walls on grid
 const getNewGridWithWallToggled = (grid, row, col) => {
   const newGrid = grid.slice();
   const node = newGrid[row][col];

@@ -22,9 +22,10 @@ class RecursiveDivision extends React.Component {
     this.display(props);
   }
 
+  // Add border walls
   addOuterWalls() {
-    for (var i = 0; i < grid.length; i++) {
-      for (var j = 0; j < grid[i].length; j++) {
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[i].length; j++) {
         if (i === 0 || i === grid.length - 1) {
           animateGrid.push(grid[i][j]);
         } else if (j === 0 || j === grid[i].length - 1) {
@@ -34,15 +35,17 @@ class RecursiveDivision extends React.Component {
     }
   }
 
+  // Add inner walls
   addInnerWalls(h, minX, maxX, minY, maxY) {
     if (h) {
       if (maxX - minX < 2) {
         return;
       }
 
-      var y = Math.floor(this.randomNumber(minY, maxY) / 2) * 2;
+      const y = Math.floor(this.randomNumber(minY, maxY) / 2) * 2;
       this.addHWall(minX, maxX, y);
 
+      // If !h will return in 'maxY - minY < 2' then use second call
       this.addInnerWalls(!h, minX, maxX, minY, y - 1);
       this.addInnerWalls(!h, minX, maxX, y + 1, maxY);
     } else {
@@ -50,7 +53,7 @@ class RecursiveDivision extends React.Component {
         return;
       }
 
-      var x = Math.floor(this.randomNumber(minX, maxX) / 2) * 2;
+      const x = Math.floor(this.randomNumber(minX, maxX) / 2) * 2;
       this.addVWall(minY, maxY, x);
 
       this.addInnerWalls(!h, minX, x - 1, minY, maxY);
@@ -58,32 +61,36 @@ class RecursiveDivision extends React.Component {
     }
   }
 
+  // Adding horizontal walls
   addHWall(minX, maxX, y) {
-    var hole = Math.floor(this.randomNumber(minX, maxX) / 2) * 2 + 1;
-    gapsArr.push(grid[y][hole]);
+    const gap = Math.floor(this.randomNumber(minX, maxX) / 2) * 2 + 1;
+    gapsArr.push(grid[y][gap]);
 
-    for (var i = minX; i <= maxX; i++) {
-      if (i !== hole) {
+    for (let i = minX; i <= maxX; i++) {
+      if (i !== gap) {
         animateGrid.push(grid[y][i]);
       }
     }
   }
 
+  // Adding vertical walls
   addVWall(minY, maxY, x) {
-    var hole = Math.floor(this.randomNumber(minY, maxY) / 2) * 2 + 1;
-    gapsArr.push(grid[hole][x]);
+    const gap = Math.floor(this.randomNumber(minY, maxY) / 2) * 2 + 1;
+    gapsArr.push(grid[gap][x]);
 
-    for (var i = minY; i <= maxY; i++) {
-      if (i !== hole) {
+    for (let i = minY; i <= maxY; i++) {
+      if (i !== gap) {
         animateGrid.push(grid[i][x]);
       }
     }
   }
 
+  // Helper function generating random between min - max
   randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
+  // Animate walls
   async display(props) {
     props.setSerachingState(true);
 
@@ -102,8 +109,9 @@ class RecursiveDivision extends React.Component {
     props.setSerachingState(false);
   }
 
+  // Async fn delaying animation
   async task(animateGrid, i) {
-    await this.timer(1);
+    await this.timer(5);
     const node = animateGrid[i];
     document.getElementById(`node-${node.row}-${node.col}`).className =
       "node node__wall";

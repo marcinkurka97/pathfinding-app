@@ -7,6 +7,7 @@ class RecursiveBacktracking extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+
     this.dirs = [];
     this.gridH = 0;
     this.gridMap = [];
@@ -31,6 +32,7 @@ class RecursiveBacktracking extends React.Component {
     this.h = isNaN(h) || h < 5 || h > 999 ? 20 : h;
     this.map = [];
 
+    // Initialize this.map with coordinates obj
     for (var mh = 0; mh < h; ++mh) {
       this.map[mh] = [];
       for (var mw = 0; mw < w; ++mw) {
@@ -48,6 +50,7 @@ class RecursiveBacktracking extends React.Component {
 
     this.build(0, 0);
 
+    // Add walls to animate grid
     for (let i = 0; i < this.gridMap.length - 1; i++) {
       for (let j = 0; j < this.gridMap[i].length - 1; j++) {
         if (
@@ -69,6 +72,7 @@ class RecursiveBacktracking extends React.Component {
     this.display(props);
   }
 
+  // Animate walls
   async display(props) {
     props.setSerachingState(true);
 
@@ -109,6 +113,7 @@ class RecursiveBacktracking extends React.Component {
     return new Promise(res => setTimeout(res, ms));
   }
 
+  // Convert coordinates grid to 0-1 grid, [1,1,1,1,0,0] where 0 is a wall and 1 is passage
   toGrid() {
     var grid = [];
     for (var mh = 0; mh < this.h * 2 + 1; ++mh) {
@@ -151,6 +156,7 @@ class RecursiveBacktracking extends React.Component {
     this.toGrid();
   }
 
+  // Explore all nodes on grid and decide which should be wall
   explore(ex, ey) {
     this.dirs = this.sortRand(this.dirs);
 

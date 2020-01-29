@@ -1,3 +1,4 @@
+// Main dijkstra fn looping throughout all nodes in grid
 export function dijkstra(grid, startNode, finishNode) {
   const visitedNodesInOrder = [];
   startNode.distance = 0;
@@ -8,7 +9,7 @@ export function dijkstra(grid, startNode, finishNode) {
     // If we encounter a wall, we skip it.
     if (closestNode.isWall) continue;
     // If the closest node is at a distance of infinity,
-    // we must be trapped and should therefore stop.
+    // we must be trapped and should stop.
     if (closestNode.distance === Infinity) return visitedNodesInOrder;
     closestNode.isVisited = true;
     visitedNodesInOrder.push(closestNode);
@@ -17,10 +18,12 @@ export function dijkstra(grid, startNode, finishNode) {
   }
 }
 
+// Sort all unvisited nodes by distance
 function sortNodesByDistance(unvisitedNodes) {
   unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
 }
 
+// Add distance + 1 to all unvisited nodes
 function updateUnvisitedNeighbors(node, grid) {
   const unvisitedNeighbors = getUnvisitedNeighbors(node, grid);
   for (const neighbor of unvisitedNeighbors) {
@@ -29,6 +32,7 @@ function updateUnvisitedNeighbors(node, grid) {
   }
 }
 
+// Get all node neighbours (top,right,bottom,left)
 function getUnvisitedNeighbors(node, grid) {
   const neighbors = [];
   const { col, row } = node;

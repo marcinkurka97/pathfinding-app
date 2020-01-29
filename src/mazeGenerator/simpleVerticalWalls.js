@@ -19,6 +19,7 @@ class SimpleVerticalWalls extends React.Component {
   async animateWalls(props) {
     props.setSerachingState(true);
 
+    // Generate border walls
     for (let i = 0; i < grid.length; i++) {
       for (let j = 0; j < grid[i].length; j++) {
         if (
@@ -33,6 +34,7 @@ class SimpleVerticalWalls extends React.Component {
       }
     }
 
+    // Generate vertical walls with a gap
     for (let i = 0; i < grid[0].length - 2; i += 2) {
       const num = Math.floor(Math.random() * (grid.length - 2)) + 1;
       const gap = grid[num][i];
